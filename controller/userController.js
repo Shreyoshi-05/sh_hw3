@@ -1,42 +1,46 @@
+import userdata from "../data/userdata.json" with { type: "json" };
 export const users = [];
 let id = 1;
 
-export function getUser(req,res){
+export function getUser(req, res) {
   res.status(200).json({
-    message:"all user names",
-    users
+    message: "all user names",
+    users,
   });
-};
 
-export function postUser(req,res){
-  const {name,place} = req.body;
-  
-    let obj = {
-      id: id++,
-      name,
-      place,
-      cart:[]
-    };
-  
-    users.push(obj);
-    res.status(200).json({
-      message:"user name is added",
-      success:true
-    });
-};
+  let uu = [...userdata].sort((a, b) => a.place.localeCompare(b.place));
+  console.log(uu);
+}
 
-export function getUserById(req,res){
+export function postUser(req, res) {
+  const { name, place } = req.body;
+
+  let obj = {
+    id: id++,
+    name,
+    place,
+    cart: [],
+  };
+
+  users.push(obj);
+  res.status(200).json({
+    message: "user name is added",
+    success: true,
+  });
+}
+
+export function getUserById(req, res) {
   const id = req.params.id;
-  if(!id){
+  if (!id) {
     return res.json({
-    message:"user not found"
-  });
+      message: "user not found",
+    });
   }
 
-  let ans = users.find((uu)=>uu.id == id);
+  let ans = users.find((uu) => uu.id == id);
 
   res.status(200).json({
-    message:"user found",
-    user:ans
+    message: "user found",
+    user: ans,
   });
-};
+}
