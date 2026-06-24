@@ -1,6 +1,9 @@
+
+import path from "path";
 import userdata from "../data/userdata.json" with { type: "json" };
 export const users = [];
 let id = 1;
+
 
 export function getUser(req, res) {
   res.status(200).json({
@@ -43,4 +46,10 @@ export function getUserById(req, res) {
     message: "user found",
     user: ans,
   });
+}
+
+export function getHtmlFile(req,res){
+  // console.log(path.resolve("view/showHtml.html"));
+  const fileDireaction = path.resolve("view/showHtml.html");
+  res.sendFile(fileDireaction);
 }
