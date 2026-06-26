@@ -1,9 +1,8 @@
-
+import { sendErrorResponse } from "../utils/response.js";
 import path from "path";
 import userdata from "../data/userdata.json" with { type: "json" };
 export const users = [];
 let id = 1;
-
 
 export function getUser(req, res) {
   res.status(200).json({
@@ -26,29 +25,33 @@ export function postUser(req, res) {
   };
 
   users.push(obj);
-  res.status(200).json({
-    message: "user name is added",
-    success: true,
-  });
+  return sendSuccessResponse("user name is added", obj, 200);
+  // res.status(200).json({
+  //   message: "user name is added",
+  //   success: true,
+  // });
 }
 
 export function getUserById(req, res) {
   const id = req.params.id;
+
   if (!id) {
-    return res.json({
-      message: "user not found",
+    return sendErrorResponse(res, {
+      statusCode: 404,
+      message: "id is not found",
     });
   }
 
   let ans = users.find((uu) => uu.id == id);
+  return sendSuccessResponse("user found", ans, 200);
 
-  res.status(200).json({
-    message: "user found",
-    user: ans,
-  });
+  // res.status(200).json({
+  //   message: "user found",
+  //   user: ans,
+  // });
 }
 
-export function getHtmlFile(req,res){
+export function getHtmlFile(req, res) {
   // console.log(path.resolve("view/showHtml.html"));
   const fileDireaction = path.resolve("view/showHtml.html");
   res.sendFile(fileDireaction);
